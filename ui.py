@@ -6,7 +6,7 @@ import wx
 class MyFrame(wx.Frame):
 
     logger = None
-    l = ["Memocard 1 -> PC", "Memocard 1 -> Netz", "Memocard <-> Memocard", "Reparieren"]
+    l = ["Memocard 1 -> PC", "Memocard 2 -> PC", "Memocard 1 -> Netz", "Memocard 2 -> Netz", "Memocard <-> Memocard", "Reparieren"]
     
     def __init__(self, t):
         wx.Frame.__init__(self, None, title=t, size=(800,400))
@@ -22,15 +22,15 @@ class MyFrame(wx.Frame):
         # dev 1
         self.textDrive1 = wx.StaticText(panel, label="Laufwerk Memocard 1")
         grid.Add(self.textDrive1, pos=(1,0))
-        self.drive1 = wx.ComboBox(panel, size=(95, -1), choices=driveList, style=wx.CB_DROPDOWN)
+        self.drive1 = wx.ComboBox(panel, size=(100, -1), choices=driveList, style=wx.CB_DROPDOWN)
         self.drive1.SetValue(driveList[1])
         grid.Add(self.drive1, pos=(1,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox, self.drive1)
         # dev 2
         self.textDrive2 = wx.StaticText(panel, label="Laufwerk Memocard 2")
         grid.Add(self.textDrive2, pos=(2,0))
-        self.drive2 = wx.ComboBox(panel, size=(95, -1), choices=driveList, style=wx.CB_DROPDOWN)
-        self.drive2.SetValue(driveList[3])
+        self.drive2 = wx.ComboBox(panel, size=(100, -1), choices=driveList, style=wx.CB_DROPDOWN)
+        self.drive2.SetValue(driveList[2])
         grid.Add(self.drive2, pos=(2,1))
         self.Bind(wx.EVT_COMBOBOX, self.EvtComboBox2, self.drive2)
 
@@ -40,19 +40,28 @@ class MyFrame(wx.Frame):
         grid.Add(self.doit, pos=(4,0), span=(1,2), flag=wx.BOTTOM, border=5)
         self.Bind(wx.EVT_CHECKBOX, self.EvtCheckBox, self.doit)
 
-        # 4 Buttons
+        # 6 Buttons
         self.button1 =wx.Button(panel, size=(150,30), label=MyFrame.l[0])
         self.Bind(wx.EVT_BUTTON, self.OnClick1, self.button1)
         grid.Add(self.button1, pos=(6,0))
         self.button2 =wx.Button(panel, size=(150,30), label=MyFrame.l[1])
         self.Bind(wx.EVT_BUTTON, self.OnClick2, self.button2)
-        grid.Add(self.button2, pos=(7,0))
+        grid.Add(self.button2, pos=(6,1))
+
         self.button3 =wx.Button(panel, size=(150,30), label=MyFrame.l[2])
         self.Bind(wx.EVT_BUTTON, self.OnClick3, self.button3)
-        grid.Add(self.button3, pos=(8,0))
+        grid.Add(self.button3, pos=(7,0))
         self.button4 =wx.Button(panel, size=(150,30), label=MyFrame.l[3])
         self.Bind(wx.EVT_BUTTON, self.OnClick4, self.button4)
-        grid.Add(self.button4, pos=(11,0))
+        grid.Add(self.button4, pos=(7,1))
+        
+        self.button5 =wx.Button(panel, size=(150,30), label=MyFrame.l[4])
+        self.Bind(wx.EVT_BUTTON, self.OnClick5, self.button5)
+        grid.Add(self.button5, pos=(8,0), span=(1,2), flag=wx.EXPAND)
+        
+        self.button6 =wx.Button(panel, size=(150,30), label=MyFrame.l[5])
+        self.Bind(wx.EVT_BUTTON, self.OnClick6, self.button6)
+        grid.Add(self.button6, pos=(11,0), span=(1,2), flag=wx.EXPAND)
 
         # A multiline TextCtrl
         MyFrame.logger = wx.TextCtrl(panel, style=wx.TE_MULTILINE | wx.TE_READONLY)
@@ -72,13 +81,17 @@ class MyFrame(wx.Frame):
         memo.card2Path = event.GetString() + memo.card2Path[2:]
         MyFrame.logger.AppendText(memo.card2Path + "\n")
     def OnClick1(self,event):
-        self.clicked(memo.memToPc, MyFrame.l[0])
+        self.clicked(memo.mem1ToPc, MyFrame.l[0])
     def OnClick2(self,event):
-        self.clicked(memo.memToNet, MyFrame.l[1])
+        self.clicked(memo.mem2ToPc, MyFrame.l[1])
     def OnClick3(self,event):
-        self.clicked(memo.memToMem, MyFrame.l[2])
+        self.clicked(memo.mem1ToNet, MyFrame.l[2])
     def OnClick4(self,event):
-        self.clicked(memo.tryRepair, MyFrame.l[3])
+        self.clicked(memo.mem2ToNet, MyFrame.l[3])
+    def OnClick5(self,event):
+        self.clicked(memo.memToMem, MyFrame.l[4])
+    def OnClick6(self,event):
+        self.clicked(memo.tryRepair, MyFrame.l[5])
     def EvtCheckBox(self, event):
         if memo.doIt:
             memo.doIt = False

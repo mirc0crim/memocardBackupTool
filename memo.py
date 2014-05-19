@@ -5,7 +5,7 @@ import ui
 
 nb023Path = "D:\\Datensicherungen"
 cardPath = "F:\\BACKUP\\"
-card2Path = "H:\\BACKUP\\"
+card2Path = "G:\\BACKUP\\"
 netPath = "I:\\Bizerba Sicherungen\\"
 
 doIt = False
@@ -15,21 +15,33 @@ cardSave = False
 card2Save = False
 netSave = False
 
-def memToPc():
-    cardSave = startLoad(cardPath)
+def mem1ToPc():
+    memToPc(cardPath)
+
+def mem2ToPc():
+    memToPc(card2Path)
+
+def memToPc(cPath):
+    cardSave = startLoad(cPath)
     nb023Save = startLoad(nb023Path)
     year = "\\" + str(datetime.datetime.now().year) + "\\"
     for i in range(len(cardSave)):
         currPath = nb023Path + year + cardSave[i][:3]
-        copyTo(cardPath, cardSave[i], currPath)
-    cardSave = startLoad(cardPath)
-    deleteDouble(cardPath, cardSave)
+        copyTo(cPath, cardSave[i], currPath)
+    cardSave = startLoad(cPath)
+    deleteDouble(cPath, cardSave)
 
-def memToNet():
-    cardSave = startLoad(cardPath)
+def mem1ToNet():
+    memToNet(cardPath)
+
+def mem2ToNet():
+    memToNet(card2Path)
+
+def memToNet(cPath):
+    cardSave = startLoad(cPath)
     netSave = startLoad(netPath)
     for i in range(len(cardSave)):
-        copyTo(cardPath, cardSave[i], netPath)
+        copyTo(cPath, cardSave[i], netPath)
     netSave = startLoad(netPath)
     deleteDouble(netPath, netSave)
 
