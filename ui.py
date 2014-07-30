@@ -93,6 +93,7 @@ class MyFrame(wx.Frame):
     def OnClick6(self,event):
         self.clicked(memo.tryRepair, MyFrame.l[5])
     def EvtCheckBox(self, event):
+        memo.counter = 0
         if memo.doIt:
             memo.doIt = False
             MyFrame.logger.AppendText("\nNur Vorschau\n\n")
@@ -116,7 +117,18 @@ class MyFrame(wx.Frame):
         totalTime = round((time.time() - start)*10)/10
         if memo.doIt:
             MyFrame.logger.AppendText("Fertig in " + str(totalTime) + " Sekunden\n")
+            memo.counter = 0
         else:
+            if memo.counter <> 0:
+                mult = 0
+                if s in (MyFrame.l[0], MyFrame.l[1]):
+                    mult = 8
+                if s in (MyFrame.l[2], MyFrame.l[3]):
+                    mult = 12
+                if s == MyFrame.l[4]:
+                    mult = 16
+                MyFrame.logger.AppendText("\nDauert ca. " + str(memo.counter*mult) + "s\n")
+                memo.counter = 0
             MyFrame.logger.AppendText("Fertig\n")
 
 def addText(s):

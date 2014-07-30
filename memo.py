@@ -8,6 +8,8 @@ cardPath = "F:\\BACKUP\\"
 card2Path = "G:\\BACKUP\\"
 netPath = "I:\\Bizerba Sicherungen\\"
 
+counter = 0
+
 doIt = False
 
 nb023Save = False
@@ -91,12 +93,15 @@ def deleteDouble(path, saves):
                 myRemove(path + saves[i], saves[i], saves[i-1])
 
 def copyTo(fromPath, aSave, toPath):
+    global counter
     currMonth = datetime.datetime.now().month
     if (not os.path.exists(toPath + "\\" + aSave) and os.path.isdir(fromPath + "\\" + aSave)):
         if ((aSave[4] <> "0" and aSave[4] <> "1") or int(aSave[4:6]) <= currMonth):
             ui.addText("kopiere " + aSave + " nach " + toPath[-33:])
             if doIt:
                 shutil.copytree(fromPath + aSave, toPath + "\\" + aSave)
+            else:
+                counter += 1
 
 def myRemove(path, remName, keepName):
     ui.addText("entferne " + remName + " behalte " + keepName)
@@ -105,6 +110,8 @@ def myRemove(path, remName, keepName):
             shutil.rmtree(path)
         if os.path.isfile(path):
             os.remove(path)
+    else:
+        counter += 0.25
 
 def tryRepair():
     ui.addText("Versuche " + cardPath[:2] + " zu reparieren")
