@@ -104,6 +104,7 @@ def copyTo(fromPath, aSave, toPath):
                 counter += 1
 
 def myRemove(path, remName, keepName):
+    global counter
     ui.addText("entferne " + remName + " behalte " + keepName)
     if doIt:
         if os.path.isdir(path):
